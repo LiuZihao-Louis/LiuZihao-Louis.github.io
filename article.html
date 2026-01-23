@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文章详情 · 刘子豪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f3ef;
+        --card: #ffffff;
+        --text: #2b2b2b;
+        --muted: #6d6d6d;
+        --accent: #6a4cf3;
+        --accent-soft: rgba(106, 76, 243, 0.12);
+        --border: rgba(43, 43, 43, 0.1);
+        --shadow: 0 18px 45px rgba(34, 34, 40, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(960px, 92vw);
+        margin: 0 auto;
+        padding: 28px 0 60px;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        backdrop-filter: blur(12px);
+        background: rgba(246, 243, 239, 0.92);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.45rem;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 18px;
+        font-weight: 500;
+        flex-wrap: wrap;
+      }
+
+      .nav-links a {
+        padding: 6px 12px;
+        border-radius: 999px;
+        transition: all 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .article-shell {
+        background: var(--card);
+        border-radius: 24px;
+        padding: 32px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      .article-header {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .article-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 3.6vw, 2.8rem);
+      }
+
+      .article-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .markdown {
+        display: grid;
+        gap: 16px;
+      }
+
+      .markdown h1,
+      .markdown h2,
+      .markdown h3,
+      .markdown h4 {
+        font-family: "Playfair Display", serif;
+        margin-top: 18px;
+      }
+
+      .markdown p {
+        color: var(--text);
+      }
+
+      .markdown ul,
+      .markdown ol {
+        padding-left: 1.4rem;
+        color: var(--text);
+      }
+
+      .markdown li {
+        margin: 6px 0;
+      }
+
+      .markdown blockquote {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 16px;
+        border-radius: 12px;
+        color: var(--muted);
+      }
+
+      .markdown code {
+        background: rgba(106, 76, 243, 0.12);
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+        font-size: 0.92rem;
+      }
+
+      .markdown pre {
+        background: #111119;
+        color: #f4f4f4;
+        padding: 16px;
+        border-radius: 12px;
+        overflow: auto;
+      }
+
+      .markdown pre code {
+        background: transparent;
+        padding: 0;
+      }
+
+      .markdown img {
+        max-width: 100%;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      .markdown table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .markdown th,
+      .markdown td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+      }
+
+      .markdown th {
+        background: rgba(106, 76, 243, 0.08);
+      }
+
+      .notice {
+        padding: 16px 18px;
+        border-radius: 14px;
+        border: 1px dashed var(--border);
+        color: var(--muted);
+        background: rgba(106, 76, 243, 0.06);
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+
+      @media (max-width: 720px) {
+        .article-shell {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="logo">Louis · Blog</div>
+        <nav class="nav-links">
+          <a href="index.html">首页</a>
+          <a href="index.html#writing">文章</a>
+          <a href="resume.html">个人简历</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <a class="back-link" href="index.html">← 返回文章列表</a>
+      <article class="article-shell">
+        <header class="article-header">
+          <span class="tag" id="article-tag">实战笔记</span>
+          <h1 class="article-title" id="article-title">
+            mineru本地部署，医疗数据ocr识别以及批量方向校正脚本
+          </h1>
+          <div class="article-meta" id="article-meta">
+            <span>2025-12-01</span>
+            <span>12 分钟阅读</span>
+            <span>关键词：OCR / 脚本 / 部署</span>
+          </div>
+        </header>
+        <section id="article-content" class="markdown">
+          <div class="notice">文章内容加载中...</div>
+        </section>
+      </article>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+    <script>
+      const articleMeta = {
+        mineru: {
+          title: "mineru本地部署，医疗数据ocr识别以及批量方向校正脚本",
+          date: "2025-01-22",
+          readTime: "12 分钟阅读",
+          tags: "OCR / 脚本 / 部署",
+          tag: "实战笔记"
+        }
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get("slug") || "mineru";
+      const meta = articleMeta[slug];
+
+      if (meta) {
+        document.getElementById("article-title").textContent = meta.title;
+        document.getElementById("article-tag").textContent = meta.tag;
+        document.getElementById("article-meta").innerHTML = `
+          <span>${meta.date}</span>
+          <span>${meta.readTime}</span>
+          <span>关键词：${meta.tags}</span>
+        `;
+      }
+
+      const contentEl = document.getElementById("article-content");
+      const md = window.markdownit({ html: true, linkify: true, typographer: true });
+
+      fetch(`passage/${slug}.md`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("文章文件未找到");
+          }
+          return response.text();
+        })
+        .then((markdown) => {
+          contentEl.innerHTML = md.render(markdown);
+        })
+        .catch(() => {
+          contentEl.innerHTML = `
+            <div class="notice">
+              暂时无法加载文章内容，请确认已在 <strong>passage/${slug}.md</strong> 放入 Markdown 文件。
+            </div>
+          `;
+        });
+    </script>
+  </body>
+</html>
