@@ -1,4 +1,416 @@
-<p>Hello 大家好</p>
-<p>我是刘子豪，这是我的个人网站。 </p>
-<p>很高兴你来到这里, 你可以在以下的网站找到我</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>刘子豪的个人博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f3ef;
+        --card: #ffffff;
+        --text: #2b2b2b;
+        --muted: #6d6d6d;
+        --accent: #6a4cf3;
+        --accent-soft: rgba(106, 76, 243, 0.12);
+        --border: rgba(43, 43, 43, 0.1);
+        --shadow: 0 18px 45px rgba(34, 34, 40, 0.1);
+      }
 
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        backdrop-filter: blur(12px);
+        background: rgba(246, 243, 239, 0.92);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.45rem;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        font-weight: 500;
+      }
+
+      .nav-links a {
+        padding: 6px 12px;
+        border-radius: 999px;
+        transition: all 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 36px;
+        padding: 70px 0 50px;
+        align-items: center;
+      }
+
+      .hero-card {
+        background: var(--card);
+        padding: 36px;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.2rem, 4vw, 3.3rem);
+        line-height: 1.2;
+      }
+
+      .hero p {
+        color: var(--muted);
+        margin: 18px 0 24px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 600;
+        transition: 0.2s ease;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: white;
+        box-shadow: 0 12px 24px rgba(106, 76, 243, 0.25);
+      }
+
+      .button.primary:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.ghost {
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .button.ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .hero-info {
+        display: grid;
+        gap: 18px;
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 16px;
+      }
+
+      .stat {
+        background: white;
+        padding: 16px 18px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+      }
+
+      .stat h3 {
+        font-size: 1.25rem;
+      }
+
+      section {
+        margin-bottom: 60px;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 16px;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background: var(--card);
+        padding: 20px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        margin-bottom: 12px;
+      }
+
+      .post-list {
+        display: grid;
+        gap: 18px;
+      }
+
+      .post {
+        display: grid;
+        gap: 12px;
+        background: var(--card);
+        border-radius: 18px;
+        padding: 20px;
+        border: 1px solid var(--border);
+      }
+
+      .post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .contact {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+      }
+
+      .contact-card {
+        background: var(--card);
+        padding: 24px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+      }
+
+      .contact-item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 14px;
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 40px 0 60px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 720px) {
+        .nav {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .hero {
+          padding-top: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="logo">Louis · Blog</div>
+        <nav class="nav-links">
+          <a href="#about">关于我</a>
+          <a href="#writing">文章</a>
+          <a href="#projects">项目</a>
+          <a href="#contact">联系</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero" id="about">
+        <div class="hero-card">
+          <span class="tag">个人博客</span>
+          <h1>你好，我是刘子豪，记录科技、设计与生活灵感。</h1>
+          <p>
+            这里是我的数字花园。分享前端探索、产品思考、工具技巧，也会记录旅行与日常的观察。欢迎一起交流，让灵感持续生长。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#writing">阅读最新文章</a>
+            <a class="button ghost" href="#contact">订阅更新</a>
+          </div>
+        </div>
+        <div class="hero-info">
+          <div class="stat-grid">
+            <div class="stat">
+              <p>文章更新</p>
+              <h3>每周 2 篇</h3>
+            </div>
+            <div class="stat">
+              <p>关注领域</p>
+              <h3>前端 / UX / AI</h3>
+            </div>
+            <div class="stat">
+              <p>所在城市</p>
+              <h3>上海</h3>
+            </div>
+          </div>
+          <div class="card">
+            <h3>正在进行</h3>
+            <p>打造一个个人知识管理系统，探索 AI + 写作的最佳实践。</p>
+            <p class="post-meta">最近更新：2024-06-10 · 7 分钟阅读</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="writing">
+        <h2 class="section-title">精选文章</h2>
+        <div class="post-list">
+          <article class="post">
+            <span class="tag">产品思考</span>
+            <h3>如何让个人作品集像产品一样自我讲故事</h3>
+            <p>整理从 0 到 1 打磨作品集的流程：选题、结构、叙事、视觉节奏，让作品集真正能够“转化”。</p>
+            <div class="post-meta">
+              <span>2024-06-02</span>
+              <span>8 分钟阅读</span>
+              <span>关键词：作品集 / 叙事 / 品牌感</span>
+            </div>
+          </article>
+          <article class="post">
+            <span class="tag">前端开发</span>
+            <h3>用 CSS 构建高级质感的博客首页</h3>
+            <p>渐变、阴影、卡片层级和排版组合在一起，可以营造一个视觉统一的博客主页。</p>
+            <div class="post-meta">
+              <span>2024-05-25</span>
+              <span>6 分钟阅读</span>
+              <span>关键词：CSS / UI / 组件</span>
+            </div>
+          </article>
+          <article class="post">
+            <span class="tag">效率工具</span>
+            <h3>我的日常工作流：Notion + Raycast + AI</h3>
+            <p>如何将任务、知识和自动化工具串联起来，构建一个真正可执行的工作流。</p>
+            <div class="post-meta">
+              <span>2024-05-14</span>
+              <span>9 分钟阅读</span>
+              <span>关键词：效率 / 自动化 / AI</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2 class="section-title">正在做的项目</h2>
+        <div class="card-grid">
+          <div class="card">
+            <span class="tag">Blog</span>
+            <h3>沉浸式写作空间</h3>
+            <p>把写作和阅读体验做到最顺手，让记录想法像和自己对话。</p>
+          </div>
+          <div class="card">
+            <span class="tag">AI</span>
+            <h3>灵感检索助手</h3>
+            <p>用向量检索把碎片知识串联起来，支持快速召回与复盘。</p>
+          </div>
+          <div class="card">
+            <span class="tag">Community</span>
+            <h3>创作者小组</h3>
+            <p>每周围绕主题输出，彼此打磨作品，建立有成长路径的创作圈。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2 class="section-title">联系我</h2>
+        <div class="contact">
+          <div class="contact-card">
+            <h3>保持联系</h3>
+            <p>欢迎订阅或私信交流，我会在 24 小时内回复。</p>
+            <div class="contact-item">📮 邮箱：hello@liuzihao.com</div>
+            <div class="contact-item">💬 微信：LiuZihao</div>
+            <div class="contact-item">🌐 小红书 / 微博：@刘子豪</div>
+          </div>
+          <div class="contact-card">
+            <h3>订阅更新</h3>
+            <p>输入邮箱即可获取每周精选文章。</p>
+            <form>
+              <label>
+                <input
+                  type="email"
+                  placeholder="name@email.com"
+                  style="margin-top: 12px; padding: 12px 16px; width: 100%; border-radius: 12px; border: 1px solid var(--border);"
+                />
+              </label>
+              <button class="button primary" style="margin-top: 12px; width: 100%;" type="button">
+                订阅
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">© 2024 刘子豪 · 用热爱记录生活</div>
+    </footer>
+  </body>
+</html>
