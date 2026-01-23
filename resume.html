@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>刘子豪 · 个人简历</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f3ef;
+        --card: #ffffff;
+        --text: #2b2b2b;
+        --muted: #6d6d6d;
+        --accent: #6a4cf3;
+        --accent-soft: rgba(106, 76, 243, 0.12);
+        --border: rgba(43, 43, 43, 0.1);
+        --shadow: 0 18px 45px rgba(34, 34, 40, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1100px, 92vw);
+        margin: 0 auto;
+        padding: 30px 0 60px;
+      }
+
+      .resume-header {
+        background: var(--card);
+        border-radius: 24px;
+        padding: 28px;
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 24px;
+        align-items: center;
+        box-shadow: var(--shadow);
+      }
+
+      .profile {
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: linear-gradient(135deg, rgba(106, 76, 243, 0.08), rgba(106, 76, 243, 0.18));
+        min-height: 140px;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .resume-header h1 {
+        font-size: 2rem;
+        font-family: "Playfair Display", serif;
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 8px 16px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+
+      .section {
+        margin-top: 28px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 20px;
+        border: 1px solid var(--border);
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        color: var(--muted);
+      }
+
+      .item-title {
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .tag {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        margin-bottom: 18px;
+      }
+
+      @media (max-width: 720px) {
+        .resume-header {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .meta {
+          justify-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a class="back-link" href="index.html">← 返回首页</a>
+
+      <section class="resume-header">
+        <div class="profile">证件照占位</div>
+        <div>
+          <h1>刘子豪</h1>
+          <p>求职意向：NLP 算法工程师（实习）</p>
+          <div class="meta">
+            <span>性别：男</span>
+            <span>年龄：21</span>
+            <span>电话：18640415660</span>
+            <span>邮箱：liuzihao2221@gmail.com</span>
+          </div>
+          <div class="tags">
+            <span class="tag">NLP</span>
+            <span class="tag">文本分类</span>
+            <span class="tag">数据挖掘</span>
+            <span class="tag">模型优化</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">教育经历</h2>
+        <div class="card">
+          <div class="item-title">香港浸会大学（珠海） · 计算机科学与技术</div>
+          <div class="list">
+            <span>2023.09 - 至今</span>
+            <span>GPA 3.43/4 · 专业前 15%</span>
+            <span>全英文授课，具备学校出具的英语水平证明</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">专业技能</h2>
+        <div class="card">
+          <div class="list">
+            <span>编程与数据处理：Python；熟练 NumPy / Pandas / Matplotlib；数据清洗、缺失值处理、特征构造与可视化。</span>
+            <span>数据库与系统：SQL（多表 JOIN、窗口函数、聚合与索引优化）；Linux 常用命令与脚本；Git 协作。</span>
+            <span>机器学习：决策树、随机森林、GBDT、XGBoost；交叉验证与超参搜索（网格/贝叶斯）；不平衡样本处理（欠采样/过采样）。</span>
+            <span>深度学习：PyTorch 训练流程（Dataset/DataLoader、训练/验证拆分、Early-Stopping、LR 调度）；CNN / RNN / Transformer 实践。</span>
+            <span>NLP 方向：BERT / RoBERTa-v3 / DeBERTa-v3 / TextCNN / FastText / GTE；文本匹配与度量学习（Triplet Loss）。</span>
+            <span>大模型与推理：Qwen2/Qwen3-4B 指令微调（LoRA/QLoRA）；vLLM 高吞吐推理；模型量化与压缩。</span>
+            <span>训练工程：DeepSpeed ZeRO-2、多 GPU 并行与梯度累积；FGM 对抗训练、EMA、Label Smoothing。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">工作经历</h2>
+        <div class="card">
+          <div class="item-title">沈阳鸿立宇通科技有限公司 · 数据分析师（实习）</div>
+          <div class="list">
+            <span>2025.06 - 2025.09</span>
+            <span>参与广告文本分类项目，负责数据清洗、特征工程、模型训练与线上部署。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">项目经历</h2>
+        <div class="card">
+          <div class="item-title">广告文本分类项目</div>
+          <div class="list">
+            <span>数据获取：采集 18 万条训练数据、1 万测试数据与 1 万验证数据。</span>
+            <span>数据预处理：清洗、缺失值填充、异常值识别，构建连续变量并完成 EDA。</span>
+            <span>模型构建：Jieba + TF-IDF、FastText、BERT 等模型，准确率分别达到 82%、92% 和 88%。</span>
+            <span>优化与部署：使用 AdamW 优化 BERT，F1 提升至 93%；通过量化将模型体积压缩 40%，并用 Flask + Streamlit 部署。</span>
+            <span>项目贡献：主导 18 万条文本清洗与标注校验，设计动态 padding 策略，批处理效率提升 23%。</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="item-title">人才流失预测项目</div>
+          <div class="list">
+            <span>收集 HR 与绩效数据，覆盖 1000+ 员工信息与 20+ 维度指标。</span>
+            <span>进行异常值处理、One-Hot 编码、特征选择与特征组合。</span>
+            <span>对比逻辑回归、XGBoost 等算法，使用 SMOTE 处理不平衡样本。</span>
+            <span>模型评估：测试集 AUC 由 0.80 提升至 0.90，准确率提升至 88%。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">竞赛经历</h2>
+        <div class="card">
+          <div class="item-title">2025.11 · Kaggle 银牌｜Jigsaw 规则分类竞赛</div>
+          <div class="list">
+            <span>面向 Reddit 社区真实审核数据，构建评论与社区规则匹配模型。</span>
+            <span>设计评论判别模型 + 对比学习表征 + 大模型生成辅助的三模型集成框架。</span>
+            <span>使用 Qwen2/Qwen3-4B 进行 QLoRA 微调，结合 GTE 对比学习与 Triplet Loss。</span>
+            <span>训练阶段引入 DeepSpeed ZeRO-2、FGM、EMA、Label Smoothing 与多 Dropout 集成。</span>
+            <span>推理阶段使用 LLM 提升文本理解能力，最终 AUC 显著高于单模型。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">自我评价</h2>
+        <div class="card">
+          <div class="list">
+            <span>三年扎实编程经验，熟悉 Python 与数据处理任务，具备可落地的工程实践能力。</span>
+            <span>对新技术保持好奇，具备英文文献阅读能力，持续关注前沿算法与应用。</span>
+            <span>团队协作积极，具备带领小组完成项目的经验，目标意识强。</span>
+            <span>曾任学生会主席，擅长沟通协调与组织策划，执行力强。</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

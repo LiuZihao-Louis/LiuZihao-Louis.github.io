@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -66,6 +65,8 @@
         align-items: center;
         justify-content: space-between;
         padding: 18px 0;
+        flex-wrap: wrap;
+        gap: 16px;
       }
 
       .logo {
@@ -78,6 +79,7 @@
         display: flex;
         gap: 24px;
         font-weight: 500;
+        flex-wrap: wrap;
       }
 
       .nav-links a {
@@ -235,6 +237,71 @@
         font-size: 0.9rem;
       }
 
+      .timeline {
+        display: grid;
+        gap: 16px;
+      }
+
+      .timeline-item {
+        background: var(--card);
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        padding: 20px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .timeline-item h3 {
+        font-size: 1.1rem;
+      }
+
+      .timeline-meta {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .award-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+      }
+
+      .award-card {
+        background: var(--card);
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .award-card img {
+        border-radius: 12px;
+        border: 1px solid var(--border);
+      }
+
+      .image-placeholder {
+        border-radius: 12px;
+        border: 1px dashed var(--border);
+        background: linear-gradient(135deg, rgba(106, 76, 243, 0.08), rgba(106, 76, 243, 0.18));
+        min-height: 180px;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .resume-cta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 18px;
+        border-radius: 16px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 600;
+      }
+
       .contact {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -263,11 +330,6 @@
       }
 
       @media (max-width: 720px) {
-        .nav {
-          flex-direction: column;
-          gap: 16px;
-        }
-
         .hero {
           padding-top: 40px;
         }
@@ -281,8 +343,10 @@
         <nav class="nav-links">
           <a href="#about">关于我</a>
           <a href="#writing">文章</a>
-          <a href="#projects">项目</a>
+          <a href="#experience">经历</a>
+          <a href="#awards">奖项</a>
           <a href="#contact">联系</a>
+          <a href="resume.html">个人简历</a>
         </nav>
       </div>
     </header>
@@ -290,92 +354,117 @@
     <main class="container">
       <section class="hero" id="about">
         <div class="hero-card">
-          <span class="tag">个人博客</span>
-          <h1>你好，我是刘子豪，记录科技、设计与生活灵感。</h1>
+          <span class="tag">知识输出 · 经历记录</span>
+          <h1>你好，我是刘子豪，专注 NLP、数据产品与 AI 应用。</h1>
           <p>
-            这里是我的数字花园。分享前端探索、产品思考、工具技巧，也会记录旅行与日常的观察。欢迎一起交流，让灵感持续生长。
+            这里记录我的知识输出、项目复盘与竞赛成长。我喜欢把复杂问题拆解成清晰步骤，同时沉淀可复用的方法论。
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#writing">阅读最新文章</a>
-            <a class="button ghost" href="#contact">订阅更新</a>
+            <a class="button primary" href="#writing">阅读文章</a>
+            <a class="button ghost" href="resume.html">查看简历</a>
           </div>
         </div>
         <div class="hero-info">
           <div class="stat-grid">
             <div class="stat">
-              <p>文章更新</p>
-              <h3>每周 2 篇</h3>
+              <p>知识方向</p>
+              <h3>NLP / 数据挖掘</h3>
             </div>
             <div class="stat">
-              <p>关注领域</p>
-              <h3>前端 / UX / AI</h3>
+              <p>关注主题</p>
+              <h3>模型优化 / 工程化</h3>
             </div>
             <div class="stat">
               <p>所在城市</p>
-              <h3>上海</h3>
+              <h3>珠海 / 上海</h3>
             </div>
           </div>
           <div class="card">
-            <h3>正在进行</h3>
-            <p>打造一个个人知识管理系统，探索 AI + 写作的最佳实践。</p>
-            <p class="post-meta">最近更新：2024-06-10 · 7 分钟阅读</p>
+            <h3>最近关注</h3>
+            <p>面向文本分类与检索任务的高效训练策略，以及模型压缩与线上推理优化。</p>
+            <p class="post-meta">更新：2025-11 · 5 分钟阅读</p>
           </div>
         </div>
       </section>
 
       <section id="writing">
-        <h2 class="section-title">精选文章</h2>
+        <h2 class="section-title">知识输出 · 文章板块</h2>
         <div class="post-list">
           <article class="post">
-            <span class="tag">产品思考</span>
-            <h3>如何让个人作品集像产品一样自我讲故事</h3>
-            <p>整理从 0 到 1 打磨作品集的流程：选题、结构、叙事、视觉节奏，让作品集真正能够“转化”。</p>
+            <span class="tag">NLP</span>
+            <h3>从规则到大模型：文本分类的训练路线复盘</h3>
+            <p>整理广告文本分类项目中从 TF-IDF、FastText 到 BERT 微调的实验脉络与关键决策。</p>
             <div class="post-meta">
-              <span>2024-06-02</span>
+              <span>2025-06-18</span>
               <span>8 分钟阅读</span>
-              <span>关键词：作品集 / 叙事 / 品牌感</span>
+              <span>关键词：文本分类 / 模型优化</span>
             </div>
           </article>
           <article class="post">
-            <span class="tag">前端开发</span>
-            <h3>用 CSS 构建高级质感的博客首页</h3>
-            <p>渐变、阴影、卡片层级和排版组合在一起，可以营造一个视觉统一的博客主页。</p>
+            <span class="tag">工程化</span>
+            <h3>模型上线前的性能压缩清单</h3>
+            <p>总结模型量化、蒸馏、推理加速、资源监控的关键步骤，保证线上延迟与成本可控。</p>
             <div class="post-meta">
-              <span>2024-05-25</span>
+              <span>2025-05-30</span>
               <span>6 分钟阅读</span>
-              <span>关键词：CSS / UI / 组件</span>
+              <span>关键词：压缩 / 推理 / 监控</span>
             </div>
           </article>
           <article class="post">
-            <span class="tag">效率工具</span>
-            <h3>我的日常工作流：Notion + Raycast + AI</h3>
-            <p>如何将任务、知识和自动化工具串联起来，构建一个真正可执行的工作流。</p>
+            <span class="tag">成长记录</span>
+            <h3>竞赛复盘：如何在 Kaggle 规则分类赛拿到银牌</h3>
+            <p>从数据理解、模型融合到 Rank Blending，全流程拆解比赛的关键节点。</p>
             <div class="post-meta">
-              <span>2024-05-14</span>
-              <span>9 分钟阅读</span>
-              <span>关键词：效率 / 自动化 / AI</span>
+              <span>2025-10-30</span>
+              <span>10 分钟阅读</span>
+              <span>关键词：Kaggle / 比赛复盘</span>
             </div>
           </article>
         </div>
       </section>
 
-      <section id="projects">
-        <h2 class="section-title">正在做的项目</h2>
-        <div class="card-grid">
-          <div class="card">
-            <span class="tag">Blog</span>
-            <h3>沉浸式写作空间</h3>
-            <p>把写作和阅读体验做到最顺手，让记录想法像和自己对话。</p>
+      <section id="experience">
+        <h2 class="section-title">个人经历 · 实习与项目</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h3>数据分析师（实习）｜沈阳鸿立宇通科技有限公司</h3>
+            <div class="timeline-meta">2025.06 - 2025.09</div>
+            <p>参与广告文本分类项目，负责数据清洗、特征构建、模型训练与上线部署。</p>
           </div>
-          <div class="card">
-            <span class="tag">AI</span>
-            <h3>灵感检索助手</h3>
-            <p>用向量检索把碎片知识串联起来，支持快速召回与复盘。</p>
+          <div class="timeline-item">
+            <h3>广告文本分类项目</h3>
+            <div class="timeline-meta">2025.06 - 2025.09</div>
+            <p>
+              从 18 万条训练数据与 1 万测试集构建文本分类流程，采用 Jieba + TF-IDF、FastText、BERT 等模型，
+              最终通过 AdamW 优化与模型量化，将模型体积压缩 40%，F1 值提升至 93%。
+            </p>
           </div>
-          <div class="card">
-            <span class="tag">Community</span>
-            <h3>创作者小组</h3>
-            <p>每周围绕主题输出，彼此打磨作品，建立有成长路径的创作圈。</p>
+          <div class="timeline-item">
+            <h3>人才流失预测项目</h3>
+            <div class="timeline-meta">2024.06 - 2024.09</div>
+            <p>
+              基于 HR 和绩效数据进行特征工程与建模，对比逻辑回归、XGBoost 等算法，
+              使用 SMOTE 解决类别不平衡，AUC 提升至 0.90。
+            </p>
+          </div>
+        </div>
+        <div class="resume-cta">
+          📄 查看完整简历内容 → <a href="resume.html">点击进入简历页面</a>
+        </div>
+      </section>
+
+      <section id="awards">
+        <h2 class="section-title">竞赛奖项</h2>
+        <div class="award-grid">
+          <div class="award-card">
+            <div class="image-placeholder">证书图片占位（Kaggle 银牌）</div>
+            <h3>Kaggle Jigsaw 规则分类赛 · 银牌</h3>
+            <p class="timeline-meta">2025 · 2445 支队伍中排名第 74</p>
+          </div>
+          <div class="award-card">
+            <div class="image-placeholder">证书图片占位（蓝桥杯）</div>
+            <h3>蓝桥杯全国软件与信息技术专业人才大赛 · 广东赛区 Java B 组三等奖</h3>
+            <p class="timeline-meta">2025-05-26</p>
           </div>
         </div>
       </section>
@@ -385,33 +474,25 @@
         <div class="contact">
           <div class="contact-card">
             <h3>保持联系</h3>
-            <p>欢迎订阅或私信交流，我会在 24 小时内回复。</p>
-            <div class="contact-item">📮 邮箱：hello@liuzihao.com</div>
-            <div class="contact-item">💬 微信：LiuZihao</div>
+            <p>如果你对我的项目或经历感兴趣，欢迎通过以下方式联系我。</p>
+            <div class="contact-item">📮 邮箱：liuzihao2221@gmail.com</div>
+            <div class="contact-item">📱 电话：18640415660</div>
             <div class="contact-item">🌐 小红书 / 微博：@刘子豪</div>
           </div>
           <div class="contact-card">
-            <h3>订阅更新</h3>
-            <p>输入邮箱即可获取每周精选文章。</p>
-            <form>
-              <label>
-                <input
-                  type="email"
-                  placeholder="name@email.com"
-                  style="margin-top: 12px; padding: 12px 16px; width: 100%; border-radius: 12px; border: 1px solid var(--border);"
-                />
-              </label>
-              <button class="button primary" style="margin-top: 12px; width: 100%;" type="button">
-                订阅
-              </button>
-            </form>
+            <h3>快速入口</h3>
+            <p>查看完整简历、作品细节与技能标签。</p>
+            <div class="hero-actions" style="margin-top: 16px;">
+              <a class="button primary" href="resume.html">个人简历</a>
+              <a class="button ghost" href="#writing">文章板块</a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="container">© 2024 刘子豪 · 用热爱记录生活</div>
+      <div class="container">© 2025 刘子豪 · 用数据与文字记录成长</div>
     </footer>
   </body>
 </html>
