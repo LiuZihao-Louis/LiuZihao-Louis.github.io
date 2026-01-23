@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.css" />
     <style>
       :root {
         color-scheme: light;
@@ -237,6 +238,116 @@
         font-size: 0.9rem;
       }
 
+      .post-content {
+        color: var(--text);
+      }
+
+      .post-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .post-actions button {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+
+      .post-actions button:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .section-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .typing {
+        display: inline-block;
+        position: relative;
+        padding-right: 6px;
+        border-right: 2px solid var(--accent);
+        animation: blink 0.9s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          border-color: transparent;
+        }
+        50% {
+          border-color: var(--accent);
+        }
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 15, 18, 0.45);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        z-index: 10;
+      }
+
+      .modal.open {
+        display: flex;
+      }
+
+      .modal-card {
+        width: min(900px, 96vw);
+        background: var(--card);
+        border-radius: 24px;
+        padding: 24px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 16px;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+      }
+
+      .form-grid input,
+      .modal textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        font-family: inherit;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+      }
+
+      .markdown-hint {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
       .timeline {
         display: grid;
         gap: 16px;
@@ -355,7 +466,7 @@
       <section class="hero" id="about">
         <div class="hero-card">
           <span class="tag">知识输出 · 经历记录</span>
-          <h1>你好，我是刘子豪，专注 NLP、数据产品与 AI 应用。</h1>
+          <h1><span id="typing-text" class="typing" data-text="你好，我是刘子豪，专注 NLP、数据产品与 AI 应用。"></span></h1>
           <p>
             这里记录我的知识输出、项目复盘与竞赛成长。我喜欢把复杂问题拆解成清晰步骤，同时沉淀可复用的方法论。
           </p>
@@ -388,39 +499,11 @@
       </section>
 
       <section id="writing">
-        <h2 class="section-title">知识输出 · 文章板块</h2>
-        <div class="post-list">
-          <article class="post">
-            <span class="tag">NLP</span>
-            <h3>从规则到大模型：文本分类的训练路线复盘</h3>
-            <p>整理广告文本分类项目中从 TF-IDF、FastText 到 BERT 微调的实验脉络与关键决策。</p>
-            <div class="post-meta">
-              <span>2025-06-18</span>
-              <span>8 分钟阅读</span>
-              <span>关键词：文本分类 / 模型优化</span>
-            </div>
-          </article>
-          <article class="post">
-            <span class="tag">工程化</span>
-            <h3>模型上线前的性能压缩清单</h3>
-            <p>总结模型量化、蒸馏、推理加速、资源监控的关键步骤，保证线上延迟与成本可控。</p>
-            <div class="post-meta">
-              <span>2025-05-30</span>
-              <span>6 分钟阅读</span>
-              <span>关键词：压缩 / 推理 / 监控</span>
-            </div>
-          </article>
-          <article class="post">
-            <span class="tag">成长记录</span>
-            <h3>竞赛复盘：如何在 Kaggle 规则分类赛拿到银牌</h3>
-            <p>从数据理解、模型融合到 Rank Blending，全流程拆解比赛的关键节点。</p>
-            <div class="post-meta">
-              <span>2025-10-30</span>
-              <span>10 分钟阅读</span>
-              <span>关键词：Kaggle / 比赛复盘</span>
-            </div>
-          </article>
+        <div class="section-header">
+          <h2 class="section-title">知识输出 · 文章板块</h2>
+          <button class="button primary" type="button" id="add-article">添加文章</button>
         </div>
+        <div class="post-list" id="article-list"></div>
       </section>
 
       <section id="experience">
@@ -491,8 +574,226 @@
       </section>
     </main>
 
+    <div class="modal" id="editor-modal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modal-title">新增文章</h3>
+          <button class="button ghost" type="button" id="close-modal">关闭</button>
+        </div>
+        <div class="form-grid">
+          <label>
+            标题
+            <input type="text" id="article-title" placeholder="输入文章标题" />
+          </label>
+          <label>
+            日期
+            <input type="date" id="article-date" />
+          </label>
+          <label>
+            阅读时间
+            <input type="text" id="article-readtime" placeholder="例如：8 分钟阅读" />
+          </label>
+          <label>
+            标签
+            <input type="text" id="article-tags" placeholder="例如：NLP / 模型优化" />
+          </label>
+        </div>
+        <div>
+          <label for="article-markdown">正文内容（Markdown）</label>
+          <textarea id="article-markdown" rows="10" placeholder="在这里写 Markdown 内容..."></textarea>
+          <p class="markdown-hint">支持 Markdown 图片语法：![](图片链接)。</p>
+        </div>
+        <div class="modal-actions">
+          <button class="button ghost" type="button" id="cancel-article">取消</button>
+          <button class="button primary" type="button" id="save-article">保存文章</button>
+        </div>
+      </div>
+    </div>
+
     <footer>
       <div class="container">© 2025 刘子豪 · 用数据与文字记录成长</div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.js"></script>
+    <script>
+      const typingTarget = document.getElementById("typing-text");
+      const typingText = typingTarget?.dataset.text ?? "";
+      let typingIndex = 0;
+      let typingForward = true;
+
+      function typeLoop() {
+        if (!typingTarget) return;
+        if (typingForward) {
+          typingIndex += 1;
+          typingTarget.textContent = typingText.slice(0, typingIndex);
+          if (typingIndex >= typingText.length) {
+            typingForward = false;
+            setTimeout(typeLoop, 2000);
+            return;
+          }
+        } else {
+          typingIndex = 0;
+          typingTarget.textContent = "";
+          typingForward = true;
+        }
+        setTimeout(typeLoop, 80);
+      }
+
+      typeLoop();
+
+      const articleList = document.getElementById("article-list");
+      const addButton = document.getElementById("add-article");
+      const modal = document.getElementById("editor-modal");
+      const closeModal = document.getElementById("close-modal");
+      const cancelArticle = document.getElementById("cancel-article");
+      const saveArticle = document.getElementById("save-article");
+      const modalTitle = document.getElementById("modal-title");
+      const titleInput = document.getElementById("article-title");
+      const dateInput = document.getElementById("article-date");
+      const readtimeInput = document.getElementById("article-readtime");
+      const tagsInput = document.getElementById("article-tags");
+      const markdownTextarea = document.getElementById("article-markdown");
+
+      const markdown = window.markdownit();
+      let simplemde;
+      let editingId = null;
+
+      const createId = () =>
+        typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+      const defaultArticles = [
+        {
+          id: createId(),
+          title: "从规则到大模型：文本分类的训练路线复盘",
+          date: "2025-06-18",
+          readTime: "8 分钟阅读",
+          tags: "文本分类 / 模型优化",
+          content: "整理广告文本分类项目中从 TF-IDF、FastText 到 BERT 微调的实验脉络与关键决策。"
+        },
+        {
+          id: createId(),
+          title: "模型上线前的性能压缩清单",
+          date: "2025-05-30",
+          readTime: "6 分钟阅读",
+          tags: "压缩 / 推理 / 监控",
+          content: "总结模型量化、蒸馏、推理加速、资源监控的关键步骤，保证线上延迟与成本可控。"
+        },
+        {
+          id: createId(),
+          title: "竞赛复盘：如何在 Kaggle 规则分类赛拿到银牌",
+          date: "2025-10-30",
+          readTime: "10 分钟阅读",
+          tags: "Kaggle / 比赛复盘",
+          content: "从数据理解、模型融合到 Rank Blending，全流程拆解比赛的关键节点。"
+        }
+      ];
+
+      function loadArticles() {
+        const stored = localStorage.getItem("blogArticles");
+        if (stored) {
+          return JSON.parse(stored);
+        }
+        localStorage.setItem("blogArticles", JSON.stringify(defaultArticles));
+        return defaultArticles;
+      }
+
+      function saveArticles(articles) {
+        localStorage.setItem("blogArticles", JSON.stringify(articles));
+      }
+
+      function renderArticles() {
+        const articles = loadArticles();
+        articleList.innerHTML = "";
+        articles.forEach((article) => {
+          const item = document.createElement("article");
+          item.className = "post";
+          item.innerHTML = `
+            <span class="tag">${article.tags.split("/")[0].trim()}</span>
+            <h3>${article.title}</h3>
+            <div class="post-content">${markdown.render(article.content)}</div>
+            <div class="post-meta">
+              <span>${article.date}</span>
+              <span>${article.readTime}</span>
+              <span>关键词：${article.tags}</span>
+            </div>
+            <div class="post-actions">
+              <button type="button" data-action="edit" data-id="${article.id}">编辑</button>
+              <button type="button" data-action="delete" data-id="${article.id}">删除</button>
+            </div>
+          `;
+          articleList.appendChild(item);
+        });
+      }
+
+      function openModal(article) {
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        modalTitle.textContent = article ? "编辑文章" : "新增文章";
+        editingId = article?.id ?? null;
+        titleInput.value = article?.title ?? "";
+        dateInput.value = article?.date ?? "";
+        readtimeInput.value = article?.readTime ?? "";
+        tagsInput.value = article?.tags ?? "";
+        if (!simplemde) {
+          simplemde = new SimpleMDE({ element: markdownTextarea });
+        }
+        simplemde.value(article?.content ?? "");
+      }
+
+      function closeEditor() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        editingId = null;
+      }
+
+      addButton.addEventListener("click", () => openModal());
+      closeModal.addEventListener("click", closeEditor);
+      cancelArticle.addEventListener("click", closeEditor);
+
+      saveArticle.addEventListener("click", () => {
+        const articles = loadArticles();
+        const updated = {
+          id: editingId ?? createId(),
+          title: titleInput.value.trim() || "未命名文章",
+          date: dateInput.value || new Date().toISOString().slice(0, 10),
+          readTime: readtimeInput.value.trim() || "5 分钟阅读",
+          tags: tagsInput.value.trim() || "未分类",
+          content: simplemde ? simplemde.value() : markdownTextarea.value
+        };
+
+        const next = editingId
+          ? articles.map((article) => (article.id === editingId ? updated : article))
+          : [updated, ...articles];
+
+        saveArticles(next);
+        renderArticles();
+        closeEditor();
+      });
+
+      articleList.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) return;
+        const action = target.dataset.action;
+        const id = target.dataset.id;
+        if (!action || !id) return;
+
+        const articles = loadArticles();
+        const article = articles.find((item) => item.id === id);
+        if (action === "edit" && article) {
+          openModal(article);
+        }
+        if (action === "delete") {
+          if (confirm("确定要删除这篇文章吗？")) {
+            const next = articles.filter((item) => item.id !== id);
+            saveArticles(next);
+            renderArticles();
+          }
+        }
+      });
+
+      renderArticles();
+    </script>
   </body>
 </html>
