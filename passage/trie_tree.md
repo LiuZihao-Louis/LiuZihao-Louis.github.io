@@ -1,6 +1,6 @@
 # 前缀树（Trie）
 
-[对应模版题：leetcode208](https://leetcode.cn/problems/implement-trie-prefix-tree/description/)
+[对应模版题：leetcode208👈点击链接](https://leetcode.cn/problems/implement-trie-prefix-tree/description/)
 
 要求你实现三个功能，一个加入单词，一个搜索单词，一个搜索前缀
 
@@ -74,4 +74,4 @@ class Node:
 
 ## 图例
 
-![image-20260126103609967](C:\Users\刘子豪\Desktop\code\LiuZihao-Louis.github.io\passage\image-20260126103609967.png)
+![image-20260126103609967](.\image-20260126103609967.png)
