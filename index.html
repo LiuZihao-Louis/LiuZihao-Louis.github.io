@@ -112,6 +112,7 @@
         font-family: "Playfair Display", serif;
         font-size: clamp(2.2rem, 4vw, 3.3rem);
         line-height: 1.2;
+        min-height: 2.6em;
       }
 
       .hero p {
@@ -218,6 +219,14 @@
       .post-list {
         display: grid;
         gap: 18px;
+      }
+
+      .notice {
+        padding: 16px 18px;
+        border-radius: 14px;
+        border: 1px dashed var(--border);
+        color: var(--muted);
+        background: rgba(106, 76, 243, 0.06);
       }
 
       .post {
@@ -432,19 +441,8 @@
 
       <section id="writing">
         <h2 class="section-title">知识输出 · 文章板块</h2>
-        <div class="post-list">
-          <article class="post">
-            <span class="tag">实战笔记</span>
-            <h3>
-              <a href="article.html?slug=mineru">mineru本地部署，医疗数据ocr识别以及批量方向校正脚本</a>
-            </h3>
-            <p>整理 MinerU 本地部署流程、医疗数据 OCR 识别步骤，以及批量方向校正脚本的落地要点。</p>
-            <div class="post-meta">
-              <span>2025-12-01</span>
-              <span>12 分钟阅读</span>
-              <span>关键词：OCR / 脚本 / 部署</span>
-            </div>
-          </article>
+        <div class="post-list" id="post-list">
+          <div class="notice">文章加载中...</div>
         </div>
       </section>
 
@@ -524,6 +522,50 @@
       <div class="container">© 2025 刘子豪 · Louis</div>
     </footer>
     <script>
+      const postListEl = document.getElementById("post-list");
+
+      const renderPosts = (posts) => {
+        if (!posts.length) {
+          postListEl.innerHTML = '<div class="notice">暂时还没有文章。</div>';
+          return;
+        }
+
+        postListEl.innerHTML = posts
+          .map(
+            (post) => `
+              <article class="post">
+                <span class="tag">${post.tag}</span>
+                <h3>
+                  <a href="article.html?slug=${post.slug}">${post.title}</a>
+                </h3>
+                <p>${post.summary}</p>
+                <div class="post-meta">
+                  <span>${post.date}</span>
+                  <span>${post.readTime}</span>
+                  <span>关键词：${post.tags}</span>
+                </div>
+              </article>
+            `
+          )
+          .join("");
+      };
+
+      fetch("passage/posts.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("文章列表未找到");
+          }
+          return response.json();
+        })
+        .then((data) => renderPosts(data.posts || []))
+        .catch(() => {
+          postListEl.innerHTML = `
+            <div class="notice">
+              暂时无法加载文章列表，请确认 <strong>passage/posts.json</strong> 已更新。
+            </div>
+          `;
+        });
+
       const typingTarget = document.getElementById("typing-text");
       const typingText = typingTarget?.dataset.text ?? "";
       let typingIndex = 0;

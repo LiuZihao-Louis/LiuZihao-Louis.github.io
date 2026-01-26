@@ -48,9 +48,7 @@
       }
 
       header {
-        position: sticky;
-        top: 0;
-        z-index: 5;
+        position: static;
         backdrop-filter: blur(12px);
         background: rgba(246, 243, 239, 0.92);
         border-bottom: 1px solid var(--border);
@@ -114,6 +112,49 @@
         gap: 12px;
         color: var(--muted);
         font-size: 0.95rem;
+      }
+
+      .article-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .copy-button {
+        border: 1px solid var(--border);
+        background: white;
+        color: var(--text);
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .copy-button:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .copy-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        background: #1d1d22;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .copy-toast.is-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-4px);
       }
 
       .tag {
@@ -259,6 +300,9 @@
             <span>12 分钟阅读</span>
             <span>关键词：OCR / 脚本 / 部署</span>
           </div>
+          <div class="article-actions">
+            <button class="copy-button" type="button" id="copy-link">复制链接</button>
+          </div>
         </header>
         <section id="article-content" class="markdown">
           <div class="notice">文章内容加载中...</div>
@@ -266,34 +310,44 @@
       </article>
     </main>
 
+    <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">链接已复制</div>
+
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
     <script>
-      const articleMeta = {
-        mineru: {
-          title: "mineru本地部署，医疗数据ocr识别以及批量方向校正脚本",
-          date: "2025-01-22",
-          readTime: "12 分钟阅读",
-          tags: "OCR / 脚本 / 部署",
-          tag: "实战笔记"
-        }
-      };
-
       const params = new URLSearchParams(window.location.search);
       const slug = params.get("slug") || "mineru";
-      const meta = articleMeta[slug];
+      const titleEl = document.getElementById("article-title");
+      const tagEl = document.getElementById("article-tag");
+      const metaEl = document.getElementById("article-meta");
 
-      if (meta) {
-        document.getElementById("article-title").textContent = meta.title;
-        document.getElementById("article-tag").textContent = meta.tag;
-        document.getElementById("article-meta").innerHTML = `
+      const applyMeta = (meta) => {
+        titleEl.textContent = meta.title;
+        tagEl.textContent = meta.tag;
+        metaEl.innerHTML = `
           <span>${meta.date}</span>
           <span>${meta.readTime}</span>
           <span>关键词：${meta.tags}</span>
         `;
-      }
+      };
 
       const contentEl = document.getElementById("article-content");
       const md = window.markdownit({ html: true, linkify: true, typographer: true });
+
+      fetch("passage/posts.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("文章列表未找到");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const posts = data.posts || [];
+          const meta = posts.find((post) => post.slug === slug);
+          if (meta) {
+            applyMeta(meta);
+          }
+        })
+        .catch(() => {});
 
       fetch(`passage/${slug}.md`)
         .then((response) => {
@@ -312,6 +366,27 @@
             </div>
           `;
         });
+
+      const copyButton = document.getElementById("copy-link");
+      const toast = document.getElementById("copy-toast");
+
+      const showToast = () => {
+        toast.classList.add("is-visible");
+        setTimeout(() => {
+          toast.classList.remove("is-visible");
+        }, 1600);
+      };
+
+      if (copyButton) {
+        copyButton.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            showToast();
+          } catch (error) {
+            showToast();
+          }
+        });
+      }
     </script>
   </body>
 </html>
