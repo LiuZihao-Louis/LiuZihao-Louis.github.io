@@ -335,7 +335,8 @@
 
       const normalizeImageSrc = (src) => {
         if (!src) return src;
-        const normalized = src.replace(/\\/g, "/");
+        const cleaned = src.replace(/%5C/gi, "/").replace(/\\/g, "/");
+        const normalized = cleaned.replace(/^\.\/+/, "");
         const hasScheme = /^[a-z][a-z0-9+.-]*:/i.test(normalized);
         if (hasScheme || normalized.startsWith("//") || normalized.startsWith("/") || normalized.startsWith("passage/")) {
           return normalized;
