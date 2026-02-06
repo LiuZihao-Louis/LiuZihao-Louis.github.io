@@ -214,6 +214,58 @@
         background: var(--accent-soft);
         color: var(--accent);
         margin-bottom: 12px;
+        width: fit-content;
+        max-width: 100%;
+        justify-self: start;
+      }
+
+      .post-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        padding: 12px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 12px 24px rgba(34, 34, 40, 0.08);
+        margin-bottom: 18px;
+      }
+
+      .filter-label {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .filter-pill {
+        border: 1px solid var(--border);
+        background: white;
+        color: var(--text);
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .filter-pill:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .filter-pill.is-active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+        box-shadow: 0 10px 22px rgba(106, 76, 243, 0.25);
       }
 
       .post-list {
@@ -383,6 +435,10 @@
         .hero {
           padding-top: 40px;
         }
+
+        .post-controls {
+          padding: 10px 12px;
+        }
       }
     </style>
   </head>
@@ -441,6 +497,10 @@
 
       <section id="writing">
         <h2 class="section-title">知识输出 · 文章板块</h2>
+        <div class="post-controls">
+          <div class="filter-label">筛选：</div>
+          <div class="filter-group" id="filter-group"></div>
+        </div>
         <div class="post-list" id="post-list">
           <div class="notice">文章加载中...</div>
         </div>
@@ -523,31 +583,97 @@
     </footer>
     <script>
       const postListEl = document.getElementById("post-list");
+      const filterGroupEl = document.getElementById("filter-group");
 
-      const renderPosts = (posts) => {
+      const getDateValue = (value) => {
+        if (!value) return 0;
+        const timestamp = Date.parse(`${value}T00:00:00`);
+        return Number.isNaN(timestamp) ? 0 : timestamp;
+      };
+
+      const sortPosts = (posts) =>
+        [...posts].sort((a, b) => {
+          const diff = getDateValue(b.date) - getDateValue(a.date);
+          if (diff !== 0) return diff;
+          return (a.title || "").localeCompare(b.title || "", "zh-Hans-CN");
+        });
+
+      let allPosts = [];
+      let activeTag = "全部";
+
+      const renderPosts = (posts, emptyMessage = "暂时还没有文章。") => {
         if (!posts.length) {
-          postListEl.innerHTML = '<div class="notice">暂时还没有文章。</div>';
+          postListEl.innerHTML = `<div class="notice">${emptyMessage}</div>`;
           return;
         }
 
         postListEl.innerHTML = posts
           .map(
-            (post) => `
+            (post) => {
+              const summary = post.summary ? `<p>${post.summary}</p>` : "";
+              return `
               <article class="post">
-                <span class="tag">${post.tag}</span>
+                <span class="tag">${post.tag || "未分类"}</span>
                 <h3>
                   <a href="article.html?slug=${post.slug}">${post.title}</a>
                 </h3>
-                <p>${post.summary}</p>
+                ${summary}
                 <div class="post-meta">
                   <span>${post.date}</span>
                   <span>${post.readTime}</span>
-                  <span>关键词：${post.tags}</span>
+                  <span>关键词：${post.tags || ""}</span>
                 </div>
               </article>
+            `;
+            }
+          )
+          .join("");
+      };
+
+      const updateFilterState = () => {
+        if (!filterGroupEl) return;
+        filterGroupEl.querySelectorAll(".filter-pill").forEach((button) => {
+          const isActive = button.dataset.tag === activeTag;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-pressed", isActive);
+        });
+      };
+
+      const applyFilter = () => {
+        const filteredPosts =
+          activeTag === "全部" ? allPosts : allPosts.filter((post) => post.tag === activeTag);
+        const emptyMessage =
+          activeTag === "全部" ? "暂时还没有文章。" : "暂无符合筛选条件的文章。";
+        renderPosts(filteredPosts, emptyMessage);
+        updateFilterState();
+      };
+
+      const buildFilters = (posts) => {
+        if (!filterGroupEl) return;
+        const tags = Array.from(new Set(posts.map((post) => post.tag).filter(Boolean)));
+        const filters = ["全部", ...tags];
+        filterGroupEl.innerHTML = filters
+          .map(
+            (tag) => `
+              <button
+                class="filter-pill${tag === activeTag ? " is-active" : ""}"
+                type="button"
+                data-tag="${tag}"
+                aria-pressed="${tag === activeTag}"
+              >
+                ${tag}
+              </button>
             `
           )
           .join("");
+        filterGroupEl.querySelectorAll(".filter-pill").forEach((button) => {
+          button.addEventListener("click", () => {
+            const nextTag = button.dataset.tag || "全部";
+            if (nextTag === activeTag) return;
+            activeTag = nextTag;
+            applyFilter();
+          });
+        });
       };
 
       fetch("passage/posts.json")
@@ -557,7 +683,11 @@
           }
           return response.json();
         })
-        .then((data) => renderPosts(data.posts || []))
+        .then((data) => {
+          allPosts = sortPosts(data.posts || []);
+          buildFilters(allPosts);
+          applyFilter();
+        })
         .catch(() => {
           postListEl.innerHTML = `
             <div class="notice">

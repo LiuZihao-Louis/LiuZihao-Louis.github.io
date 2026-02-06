@@ -333,6 +333,26 @@
       const contentEl = document.getElementById("article-content");
       const md = window.markdownit({ html: true, linkify: true, typographer: true });
 
+      const normalizeImageSrc = (src) => {
+        if (!src) return src;
+        const normalized = src.replace(/\\/g, "/");
+        const hasScheme = /^[a-z][a-z0-9+.-]*:/i.test(normalized);
+        if (hasScheme || normalized.startsWith("//") || normalized.startsWith("/") || normalized.startsWith("passage/")) {
+          return normalized;
+        }
+        return `passage/${normalized}`;
+      };
+
+      const fixArticleImages = (root) => {
+        root.querySelectorAll("img").forEach((img) => {
+          const src = img.getAttribute("src");
+          const nextSrc = normalizeImageSrc(src);
+          if (nextSrc && nextSrc !== src) {
+            img.setAttribute("src", nextSrc);
+          }
+        });
+      };
+
       fetch("passage/posts.json")
         .then((response) => {
           if (!response.ok) {
@@ -358,6 +378,7 @@
         })
         .then((markdown) => {
           contentEl.innerHTML = md.render(markdown);
+          fixArticleImages(contentEl);
         })
         .catch(() => {
           contentEl.innerHTML = `
