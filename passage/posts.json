@@ -17,6 +17,15 @@
       "readTime": "12 分钟阅读",
       "tags": "字典树 / 哈希表 / 设计",
       "tag": "算法及数据结构"
+    },
+    {
+      "slug": "monotonic_stack",
+      "title": "单调栈，及leetcode42-接雨水",
+      "summary": "",
+      "date": "2025-02-06",
+      "readTime": "12 分钟阅读",
+      "tags": "单调栈",
+      "tag": "算法及数据结构"
     }
   ]
 }
