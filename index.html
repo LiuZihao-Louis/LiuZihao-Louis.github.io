@@ -106,6 +106,33 @@
         padding: 36px;
         border-radius: 24px;
         box-shadow: var(--shadow);
+        position: relative;
+        overflow: visible;
+      }
+
+      .hero-portraits {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .hero-portrait {
+        --size: clamp(72px, 9vw, 104px);
+        width: var(--size);
+        height: var(--size);
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #fff;
+        background: #fff;
+        box-shadow: 0 0 0 6px var(--accent-soft), 0 16px 32px rgba(34, 34, 40, 0.18);
+      }
+
+      .hero-portrait.left {
+        --size: clamp(88px, 11vw, 132px);
+        position: absolute;
+        left: calc(var(--size) * -0.6);
+        top: 42px;
+        transform: rotate(-4deg);
       }
 
       .hero h1 {
@@ -431,6 +458,20 @@
         text-align: center;
       }
 
+      @media (max-width: 1024px) {
+        .hero-portraits {
+          position: static;
+          display: flex;
+          justify-content: flex-start;
+          margin-bottom: 18px;
+        }
+
+        .hero-portrait {
+          position: static;
+          transform: none;
+        }
+      }
+
       @media (max-width: 720px) {
         .hero {
           padding-top: 40px;
@@ -438,6 +479,17 @@
 
         .post-controls {
           padding: 10px 12px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .hero-portraits {
+          justify-content: center;
+          gap: 16px;
+        }
+
+        .hero-portrait {
+          --size: 72px;
         }
       }
     </style>
@@ -460,6 +512,9 @@
     <main class="container">
       <section class="hero" id="about">
         <div class="hero-card">
+          <div class="hero-portraits" aria-hidden="true">
+            <img class="hero-portrait left" src="assets/%E5%A4%B4%E5%83%8F.jpg" alt="" />
+          </div>
           <span class="tag">知识输出 · 经历记录</span>
           <h1>
             <span id="typing-text" class="typing" data-text="hi，我是Louis，专注 AI、数据科学与算法。"></span>
@@ -708,7 +763,7 @@
           typingTarget.textContent = typingText.slice(0, typingIndex);
           if (typingIndex >= typingText.length) {
             typingForward = false;
-            setTimeout(typeLoop, 7126);
+            setTimeout(typeLoop, 77126);
             return;
           }
         } else {
