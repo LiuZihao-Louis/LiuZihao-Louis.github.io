@@ -26,6 +26,15 @@
       "readTime": "12 分钟阅读",
       "tags": "单调栈",
       "tag": "算法及数据结构"
+    },
+    {
+      "slug": "python_advanced",
+      "title": "python高级语法整理（遇到啥整理啥，持续更新中）",
+      "summary": "",
+      "date": "2025-02-07",
+      "readTime": "12 分钟阅读",
+      "tags": "语法",
+      "tag": "python高级"
     }
   ]
 }
