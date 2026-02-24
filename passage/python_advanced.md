@@ -39,7 +39,29 @@ hash.get(x, 0)
 如果 x 不在 → 返回 0
 ```
 
+# 4. 双端队列使用规则
 
+1. 创建
+
+   ```python
+   from collections import deque
+   
+   dq = deque()              # 空队列
+   dq = deque([1,2,3])       # 初始化
+   dq = deque(maxlen=3)      # 固定长度（自动弹出旧元素）
+   ```
+
+2. 两端操作
+
+   ```
+   dq.append(x)      # 右侧加入
+   dq.pop()          # 右侧弹出
+   
+   dq.appendleft(x)  # 左侧加入
+   dq.popleft()      # 左侧弹出
+   ```
+
+   
 
 
 
